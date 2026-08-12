@@ -1,13 +1,45 @@
 # Failures and Lessons
 
-This repository intentionally does not present a perfect build history.
+This project has not advanced in a straight line. The failures are part of the architecture because they explain why governance, evidence, and owner control became necessary.
 
-Examples of preserved non-success states:
+## Repeated lesson: conversation is not state
 
-- early local Brain prototype attempts produced failures before later corrected passes
-- campaign delivery could be materially better than engagement; one awareness result recorded 96% delivered, 13.54% opened, 0% clicked, and 4% hard bounced
-- a later campaign scheduling attempt produced an operation-not-scheduled error
-- knowledge staging could pass governance checks while still remaining blocked from deployment because owner decisions and exceptions were unresolved
-- local AI could run successfully and still be practically unusable because generation speed was too slow
+AI can confidently describe something that is no longer current or that was never actually implemented. GoNica therefore separates discussion from durable project evidence and uses authority documents, repository state, test output, and owner decisions to reconstruct the current truth.
 
-The project treats failures as evidence. A later pass does not erase the earlier failure; the purpose is to understand what changed and whether the correction is reproducible.
+## CRM-transition lesson
+
+Moving records is not enough. Migrations can lose descriptions, activity, ownership, relationships, field meaning, duplicate context, and business logic even when the contact count looks correct. Preservation and reconciliation have to be explicit requirements.
+
+## Automation lesson
+
+A workflow that exists is not necessarily safe to run. Trigger conditions, suppression, consent, routing, ownership, and human handoff need to be validated independently.
+
+## Campaign lesson
+
+Delivery and opens do not equal useful engagement. A campaign can deliver successfully and still produce zero meaningful action. Scheduling state, bounce behavior, targeting, message relevance, and click outcomes need to be inspected separately.
+
+## Local-AI lesson
+
+A model being technically runnable does not mean it is operationally practical. The local AI experiments demonstrated that hardware ceilings can turn a successful launch into an unusably slow workflow.
+
+## Development lesson
+
+Many early steps were learned by screenshot, question, attempt, error, correction, and repetition. Over time those interactions were converted into scripts, repositories, testing, documentation, manifests, and governance rules.
+
+The project itself became the curriculum.
+
+## Current operating response
+
+When something fails, the intended loop is:
+
+```mermaid
+flowchart LR
+    F[Failure / discrepancy] --> C[Capture evidence]
+    C --> R[Reconstruct current state]
+    R --> D[Decide correction]
+    D --> T[Test correction]
+    T --> L[Preserve lesson]
+    L --> N[No-repeat rule / reusable pattern]
+```
+
+The purpose of documenting failure is not to dramatize it. It is to reduce the probability of paying for the same mistake twice.
