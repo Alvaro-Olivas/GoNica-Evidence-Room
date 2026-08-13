@@ -43,6 +43,7 @@ How a Salesforce-to-GoHighLevel transition, a long-delayed tourism idea, automat
 ### 3. Inspect what exists and what has been tested
 - [**Technical Evidence Index**](TECHNICAL_EVIDENCE_INDEX.md) — Phase 2 inspection map tying public claims to evidence categories.
 - [**Selected Validation Evidence**](SELECTED_VALIDATION_EVIDENCE.md) — concrete sanitized test results and their boundaries.
+- [**CRM Migration & Business-Knowledge Preservation Case Study**](CRM_MIGRATION_PRESERVATION_CASE_STUDY.md) — a synthetic, sanitized end-to-end example showing why migration is more than contact transfer.
 - [**Current State**](CURRENT_STATE.md)
 - [**Validation Summary**](VALIDATION_SUMMARY.md)
 - [**Failures and Lessons**](FAILURES_AND_LESSONS.md)
@@ -56,7 +57,8 @@ Current Phase 2 additions include:
 - a technical evidence index;
 - selected numerical validation results;
 - explicit test-versus-production boundaries;
-- a publication rule for future sanitized migration, workflow, benchmark and configuration artifacts.
+- a sanitized CRM migration / business-knowledge preservation case study;
+- a publication rule for future workflow, benchmark and configuration artifacts.
 
 ## What GoNica is trying to make possible
 
