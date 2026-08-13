@@ -41,10 +41,22 @@ How a Salesforce-to-GoHighLevel transition, a long-delayed tourism idea, automat
 - [**Architecture**](ARCHITECTURE.md) — Brain, execution environment, evidence, approvals, and reusable deployment logic.
 
 ### 3. Inspect what exists and what has been tested
+- [**Technical Evidence Index**](TECHNICAL_EVIDENCE_INDEX.md) — Phase 2 inspection map tying public claims to evidence categories.
+- [**Selected Validation Evidence**](SELECTED_VALIDATION_EVIDENCE.md) — concrete sanitized test results and their boundaries.
 - [**Current State**](CURRENT_STATE.md)
 - [**Validation Summary**](VALIDATION_SUMMARY.md)
 - [**Failures and Lessons**](FAILURES_AND_LESSONS.md)
 - [**Local AI Lab**](LOCAL_AI_LAB.md)
+
+## Phase 2: deeper technical proof
+
+The first version of this repository established the product definition, founder origin, architecture, validation discipline and current-state boundaries. Phase 2 adds more inspectable evidence without turning the private control plane into a public dump.
+
+Current Phase 2 additions include:
+- a technical evidence index;
+- selected numerical validation results;
+- explicit test-versus-production boundaries;
+- a publication rule for future sanitized migration, workflow, benchmark and configuration artifacts.
 
 ## What GoNica is trying to make possible
 
