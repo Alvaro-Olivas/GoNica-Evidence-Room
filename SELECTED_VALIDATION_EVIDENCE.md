@@ -1,177 +1,200 @@
-# Selected Validation Evidence
+# Selected Test & Evaluation Evidence
 
-This page exposes a small set of concrete, sanitized validation results from the private GoNica evidence base.
+This page records selected engineering results and, just as importantly, their limits.
 
-The numbers below are not a claim that GoNica is finished or production-ready. They show that selected components have been exercised under defined conditions and that test state is kept separate from production authorization.
+**Important:** most numbers below are produced by project-authored tests and evaluation logic. They are useful internal regression/CI evidence. They are **not independent third-party validation**.
 
-## 1. Governed GoHighLevel bridge
+For directly inspectable behavior, start with the [Auditable Operational Continuity Engine Example](auditable_example/README.md).
 
-**Status:** `TESTED`
+## 1. Publicly auditable subset
 
-Selected historical validation:
-- **28 / 28** governed bridge tests passed.
-- synthetic acceptance test: **PASS**;
-- package / hash checks: **PASS**;
-- secret scan: **CLEAR**;
-- live evidence used a **read-only** path before any bounded synthetic-write authorization.
+**Status:** `PUBLICLY-AUDITABLE / INTERNAL REGRESSION`
+
+The public repository now exposes three exact continuity contracts plus deterministic logic, synthetic fixtures and adversarial tests:
+
+- `B09-01` Lifecycle Capability Contract;
+- `B09-06` Identity Match != Data-Sharing Authority;
+- `B09-08` Business Event Identity != Transport Attempt.
+
+Run:
+
+```bash
+python auditable_example/evaluator.py auditable_example/fixtures/complete.json
+python -m unittest auditable_example/test_evaluator.py -v
+```
 
 What this supports:
-- the bridge exists as more than a design concept;
-- governance controls were exercised;
-- read-only-first behavior is part of the operating method.
+
+- the contract mechanism is not only prose;
+- selected PASS/PARTIAL/FAIL/UNKNOWN behavior can be reproduced;
+- a reviewer can modify inputs and challenge the logic directly.
 
 What this does **not** support:
-- unrestricted production write access;
-- autonomous customer changes;
-- a claim that every HighLevel operation has been validated;
-- a claim that the currently prepared R3.5 live-validation package has already been executed.
 
-## 2. Earlier GoNica Brain benchmark program
+- correctness of the full private 17-contract set;
+- complete coverage;
+- independent validation;
+- production readiness.
 
-**Status:** `TESTED — SYNTHETIC / SANITIZED`
+## 2. Governed GoHighLevel bridge
 
-An earlier structured benchmark program executed **46** synthetic or sanitized cases, including preflight.
+**Status:** `INTERNAL-TESTED / HISTORICAL`
 
-Results:
-- **41 PASS**
-- **5 PARTIAL**
-- **0 FAIL**
-- **0 critical governance failures**
-- approximate weighted result: **96.2 / 100**
+Selected historical project-authored validation recorded:
 
-The benchmark deliberately tested more than answer quality. Cases included unknown/conflict handling, unsafe owner requests, budget and workload constraints, dependency drift, consent boundaries, identity conflicts, recovery behavior, reusable-system separation and evidence provenance.
+- 28/28 governed bridge tests passed;
+- synthetic acceptance: PASS;
+- package/hash checks: PASS;
+- secret scan: CLEAR;
+- bounded historical live-read evidence exists.
 
-The five partial results were not discarded. They were converted into design corrections and regression requirements.
+Correct interpretation:
 
-## 3. Operational-continuity regression program
+This supports that a governed bridge was implemented and exercised under defined project tests. It does not establish that every HighLevel operation is correct, that the tests are independently sufficient, or that unrestricted production writes are authorized.
 
-**Status:** `TESTED — SYNTHETIC / CONTROLLED`
+## 3. Earlier Brain benchmark program
 
-A later operational-continuity program focused on what a business can lose when people, records, tasks, documents, calendars, notifications and multiple systems must continue to work together.
+**Status:** `INTERNAL-TESTED — SYNTHETIC / SANITIZED`
 
-Original controlled executions:
-- **72 total**
-- **59 PASS**
-- **13 PARTIAL**
-- **0 FAIL**
+Earlier project-authored benchmark results:
 
-Seven correction contracts were then defined around discovered gaps, covering identity history, naming/locator continuity, time-based obligations, notification routing, calendar meaning, actor/sender provenance, and cross-system process reconciliation.
+- 46 cases total;
+- 41 PASS;
+- 5 PARTIAL;
+- 0 FAIL;
+- 0 critical governance failures.
 
-Targeted correction regressions:
-- **13 additional executions**
-- **13 PASS**
-- **0 PARTIAL**
-- **0 FAIL**
+The five partials were preserved and used to generate corrections/regression requirements.
 
-Cumulative evidence history:
-- **85 controlled executions**
-- original results remain unchanged;
-- targeted correction results are recorded separately.
+Correct interpretation:
 
-What this supports:
-- the project can discover operational-continuity gaps, formalize corrections, and retest them;
-- GoNica treats relationships, time, identity, routing and human/system handoffs as business requirements rather than merely fields to copy;
-- evidence history is preserved instead of rewritten after a correction.
+These results are evidence of an internal engineering process, not an external quality score. The weighted score previously reported by the project should not be treated as independent product validation.
 
-## 4. Current Brain reference engine — R3/R3.5
+## 4. Operational-continuity regression history
 
-**Status:** `BUILT + TESTED — OFFLINE / SYNTHETIC OR SANITIZED`
+**Status:** `INTERNAL-TESTED — SYNTHETIC / CONTROLLED`
 
-The current private reference implementation includes:
-- a canonical registry of **17 operational-continuity and governance contracts**;
-- all **17 provider-neutral deterministic reference checks**;
-- structured synthetic company fixtures, including corrected and conflict/stress cases;
-- a controlled incident-to-regression learning path;
-- human-readable analysis reporting;
-- hash-verifiable evidence bundles;
-- a one-command candidate-review demo;
-- sanitized templates prepared for future live evidence capture, adapter comparison and owner decisions.
+Original executions:
 
-Brain unit tests are included in the standard private Control Plane validation workflow before manifest reconciliation.
+- 72 total;
+- 59 PASS;
+- 13 PARTIAL;
+- 0 FAIL.
 
-The R3.5 live-evidence templates begin in `NOT_RUN` or `PENDING` states. Their existence does not mean a current live session or production approval has occurred.
+Targeted correction regressions added afterward:
 
-## 5. Real-evidence transition corpus — August 18
+- 13 additional executions;
+- 13 PASS.
 
-**Status:** `EVALUATED — PUBLIC SOURCE EVIDENCE / OFFLINE`
-
-The private control plane evaluated seven acquired/normalized public-source datasets through the existing 17-contract engine.
-
-Sanitized aggregate:
-
-- **7 sources** acquired and normalized;
-- **119 contract evaluations**;
-- **0 PASS**;
-- **30 PARTIAL**;
-- **6 FAIL**;
-- **83 UNKNOWN**;
-- **7/7 evidence bundles verified**;
-- **4 governed learning candidates**, all unpromoted;
-- existing Brain test suite: **21/21 PASS**;
-- corpus regression suite: **9/9 PASS**;
-- Brain architecture/canonical contract set changed: **no**;
-- training/fine-tuning: **none**.
-
-Why `0 PASS` in the source evaluations is not a system failure:
-
-The public sources were not complete migration dossiers. The engine evaluates whether evidence proves each contract. Missing facts remain `UNKNOWN`, partial support remains `PARTIAL`, and explicit conflicts can become `FAIL`. The evaluation therefore demonstrates conservative evidence handling rather than a tendency to fabricate success.
+The original partials were not rewritten after the corrections passed.
 
 What this supports:
-- the same contract engine can be applied to real public evidence rather than only handcrafted fixtures;
-- incomplete evidence stays incomplete;
-- learning candidates can emerge without changing architecture or granting production authority.
 
-What this does **not** support:
-- proof that the source organizations completed successful migrations;
-- proof of live enforcement inside those organizations;
-- proof of GoNica production deployment.
+- known gaps can be turned into explicit regression conditions;
+- the project preserves earlier results rather than converting history into all-green evidence.
 
-## 6. Incident-derived longitudinal regressions — August 19
+What it does not support:
 
-**Status:** `REGRESSION-BACKED VALIDATED RULE CANDIDATES`
+- that the contract suite is complete;
+- that an outside reviewer would choose the same rules;
+- that real companies will produce the same outcomes.
 
-A separate sanitized, real-world transition evidence stream spanning multiple weeks generated three new regressions against the existing Brain contracts.
+## 5. Private 17-contract reference engine
 
-Validated incident classes:
+**Status:** `PRIVATE-ONLY / INTERNAL-TESTED`
 
-1. **Duplicate downstream business/storage side effects** — a repeated, renamed or non-qualifying event must not create additional persistent business outcomes.
-2. **Overbroad conversation/data visibility** — unresolved assignment or known identity must not silently authorize broader access.
-3. **Lifecycle/business-class ambiguity** — discoverable records with missing business-state meaning are not a completed transition.
+The current private control plane records:
 
-The regressions passed the private repository's standard Control Plane validation path. They are therefore treated as regression-backed rule candidates under existing contracts, not as new permanent contracts.
+- 17 explicit continuity/governance contracts;
+- 17 deterministic reference checks;
+- structured synthetic fixtures;
+- 17 adversarial contract cases in the private suite;
+- a test that prevents a supplied `PASS` from hiding a deterministic `FAIL`;
+- incident-to-regression handling;
+- reports and hash-verifiable evidence bundles.
 
-The same evidence exposed additional gap candidates that remain pending:
+Only three of those contracts are currently exposed as runnable public code in this Evidence Room. A reviewer should therefore distinguish:
 
-- source/destination record cardinality + lifecycle-state parity;
+> **private implementation claim** from **publicly auditable proof**.
+
+## 6. Real-evidence transition corpus — August 18
+
+**Status:** `PRIVATE EVALUATION OVER PUBLIC-SOURCE INPUTS`
+
+Seven acquired/normalized public-source evidence sets were evaluated through the private 17-contract engine.
+
+Aggregate:
+
+- 119 contract evaluations;
+- 30 PARTIAL;
+- 6 FAIL;
+- 83 UNKNOWN;
+- 0 PASS;
+- 7/7 evidence bundles verified internally;
+- 4 learning candidates remained unpromoted;
+- internal Brain suite: 21/21 PASS;
+- internal corpus regression suite: 9/9 PASS.
+
+### How to interpret `0/119 PASS`
+
+This is **not a success metric**.
+
+The seven inputs were not complete transition dossiers. They were public evidence sources with uneven coverage, so many contract questions had insufficient evidence and remained `UNKNOWN`.
+
+The result does demonstrate that the evaluator does not automatically turn absence into PASS. But it also creates a legitimate engineering question that remains open:
+
+- Are some contracts too strict?
+- Is applicability modeled well enough?
+- Is useful signal being lost in normalization?
+- What would an independent reviewer classify differently?
+
+The Evidence Room should not frame `0/119 PASS` as automatically positive. It is a calibration signal that should be challenged.
+
+## 7. Longitudinal incident-derived regressions — August 19
+
+**Status:** `OBSERVED-SANITIZED + INTERNAL REGRESSION`
+
+A multi-week private business-system transition produced generalized incident classes. Three were mapped to existing contracts and converted into internal regressions:
+
+1. duplicate downstream side effects;
+2. overbroad conversation/data visibility;
+3. lifecycle/business-class ambiguity.
+
+Additional gaps remain pending rather than being forced into the current contract set:
+
+- source/destination record cardinality and lifecycle-state parity;
 - whole-company stakeholder/department readiness before rollout;
 - task work-method parity beyond task-object existence.
 
 See [Longitudinal Business-System Transition Evidence](LONGITUDINAL_TRANSITION_EVIDENCE.md).
 
-## 7. CRM migration / preservation validation — one use case
+Because the underlying company evidence is private and sanitized, an outside reviewer cannot independently reconstruct the incidents from this repo alone. The public value is the generalized rule and the disclosed limitation, not a claim of customer validation.
 
-**Status:** `TESTED — SELECTED OFFLINE CASES + SANITIZED OBSERVATIONAL LEARNING`
+## 8. Production boundary
 
-Selected validation demonstrated that CRM transition work was treated as more than contact transfer. Tests covered preservation/mapping behavior and field disposition in defined offline cases, while later observational evidence added real failure patterns around identity, business state, automation side effects, access, tasks and cross-system relationships.
-
-The core validation question is:
-
-> Can the target operating model preserve the information, relationships and work behavior needed to continue the company, rather than merely producing a smaller contact file?
-
-This work supports a broader GoNica principle:
-
-**DATA MIGRATION IS NOT THE SAME AS OPERATIONAL MIGRATION.**
-
-## 8. Production gate discipline
-
-A recurring GoNica rule is:
+A project rule remains:
 
 ```text
-PASSING TEST != PRODUCTION AUTHORIZATION
+PASSING AN INTERNAL TEST != PRODUCTION AUTHORIZATION
 ```
 
-Components can remain intentionally blocked after successful technical testing because production use requires a separate owner decision, credentials/scopes, privacy checks, tenant boundaries, rollback readiness or business approval.
+Current public evidence does not prove:
 
-## Why numerical evidence is being released selectively
+- external-customer production outcomes;
+- broad live cross-system continuity;
+- independent contract calibration;
+- independent security/compliance certification;
+- completed enterprise deployment.
 
-The private control plane contains substantially more detailed logs, fixtures and operational records. Public evidence is deliberately reduced so reviewers can inspect the engineering discipline without exposing customer information, private CRM data, credentials, internal access paths, employer-confidential material or unrestricted operational strategy.
+## What stronger evidence should look like next
+
+The next evidence tier is not a larger internal pass count. It is external challenge:
+
+- outside code review;
+- reviewer-authored adversarial cases;
+- fuzz/property-based testing where appropriate;
+- applicability/calibration review of the contract model;
+- bounded live proofs with measurable outcomes;
+- eventually external pilot/customer evidence.
+
+That is the standard against which future Evidence Room updates should be judged.
