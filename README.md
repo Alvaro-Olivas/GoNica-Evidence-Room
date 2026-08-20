@@ -1,147 +1,149 @@
-# GoNica Technical Evidence Room
+# GoNica Evidence Room
 
-**A sanitized public inspection surface for GoNica Brain.**
+**Public technical inspection surface for GoNica Brain.**
 
-GoNica Brain is an early-stage governed company-intelligence and operations layer designed to help a business understand how it actually works, organize and preserve its operating knowledge, identify gaps and risks, prepare implementations or system changes, test expected behavior, and coordinate approved execution with an evidence trail.
+This repository should not require a reviewer to trust a product description. Its purpose is to expose enough concrete material to inspect what exists, reproduce selected behavior, see what remains private, and distinguish internal testing from independent validation.
 
-CRM migration is one important use case, but it is not the whole product. The broader problem is that a company's operating knowledge is usually scattered across people, software, documents, workflows, relationships, rules, exceptions, history, timing, permissions, and decisions. When that knowledge is fragmented, a company can lose continuity during growth, onboarding, process changes, software transitions, acquisitions, or automation projects even when the individual tools appear to be working.
+## Technical reviewer: start here
 
-GoNica is being built to turn that operating reality into a controlled company model that can support analysis, planning, implementation, validation, human decision-making, and reusable learning.
+### 1. Run an actual subset of the Operational Continuity Engine
 
-## See the whole project in one view
+[**Open the Auditable Operational Continuity Engine Example →**](auditable_example/README.md)
 
-```mermaid
-flowchart TD
-    O[Founder / Owner] --> B[GoNica Brain\nGovernance + memory + evidence + reasoning]
-    R[Company reality\nPeople + CRM + files + history + rules + workflows + decisions] --> B
-    B --> U[Understand + preserve]
-    B --> A[Analyze gaps + risks]
-    B --> P[Plan changes + implementations]
-    B --> G[Govern permissions + approvals]
-    B --> X[Coordinate controlled execution]
-    B --> V[Test + verify + learn]
-    U --> M[GoNica Marketing\nReusable implementation layer]
-    A --> M
-    P --> M
-    G --> M
-    X --> M
-    V --> M
-    M --> T[GoNica Tours\nFirst owner-controlled proof]
-    B --> L[Local AI Lab\nExperiments + compute constraints]
+The public subset includes:
+
+- 3 exact contract definitions;
+- deterministic evaluation code;
+- a passing synthetic dossier;
+- 3 adversarial cases;
+- executable regression tests;
+- a public GitHub Actions workflow that reruns the subset.
+
+From the repository root:
+
+```bash
+python auditable_example/evaluator.py auditable_example/fixtures/complete.json
+python -m unittest auditable_example/test_evaluator.py -v
 ```
 
-[Open the full conceptual map →](CONCEPTUAL_MAP.md)
+The exposed contracts are:
 
-## What GoNica Brain is trying to do
+- `B09-01` — Lifecycle Capability Contract;
+- `B09-06` — Identity Match != Data-Sharing Authority;
+- `B09-08` — Business Event Identity != Transport Attempt.
 
-The intended operating pattern is:
+The current private reference engine contains a broader 17-contract set. **This public repository does not ask a reviewer to treat the unexposed 14 contracts as independently verified.** The public subset exists so the mechanism itself can be inspected and challenged.
 
-**DISCOVER → UNDERSTAND → PRESERVE → ANALYZE → PLAN → TEST → APPROVE → EXECUTE → VERIFY → LEARN → REUSE**
+## What the Operational Continuity Engine is
 
-Examples of work the Brain is intended to support include:
+**Operational Continuity Engine** — a deterministic evidence-evaluation component that tests business-system transition evidence against explicit continuity contracts.
 
-- reconstructing how a company actually operates from evidence instead of relying only on interviews or software configuration;
-- preserving business knowledge and relationships across system or staffing changes;
-- identifying conflicts, missing decisions, risky assumptions, and operational dependencies;
-- preparing CRM migrations, implementations, onboarding plans, workflow changes, acquisition integrations, and other controlled business-system work;
-- translating discovered risks into requirements and regression tests;
-- keeping consequential actions behind permissions and human approval;
-- preserving evidence of what was intended, built, tested, changed, and verified;
-- learning from failures and corrections so validated lessons can be reused without silently rewriting history.
+The current reference implementation is written in Python. Python is an implementation detail, not the identity of the component.
 
-## Choose how you want to inspect GoNica
+A contract defines a required behavior/evidence condition and resolves evidence into one of:
 
-### 1. Understand the human story
-[**Founder Story — Why GoNica Exists**](FOUNDER_STORY.md)
+```text
+PASS
+PARTIAL
+FAIL
+UNKNOWN
+NOT_APPLICABLE
+```
 
-How a Salesforce-to-GoHighLevel transition, a long-delayed tourism idea, automation, and a rediscovered fascination with computers converged into the project.
+Missing evidence is not allowed to silently become `PASS`.
 
-### 2. Understand the system
-- [**Conceptual Map**](CONCEPTUAL_MAP.md) — graphical system view rendered directly in GitHub.
-- [**Project Map**](PROJECT_MAP.md) — what each major part of GoNica does.
-- [**Architecture**](ARCHITECTURE.md) — Brain, execution environment, evidence, approvals, and reusable deployment logic.
+## Evidence you can inspect publicly
 
-### 3. Inspect what exists and what has been tested
-- [**Technical Evidence Index**](TECHNICAL_EVIDENCE_INDEX.md) — inspection map tying public claims to evidence categories.
-- [**Selected Validation Evidence**](SELECTED_VALIDATION_EVIDENCE.md) — concrete sanitized test results and their boundaries.
-- [**CRM Migration & Business-Knowledge Preservation Case Study**](CRM_MIGRATION_PRESERVATION_CASE_STUDY.md) — synthetic/sanitized architecture example.
-- [**Longitudinal Business-System Transition Evidence**](LONGITUDINAL_TRANSITION_EVIDENCE.md) — sanitized real-world transition evidence converted into regressions and pending coverage gaps.
-- [**Current State**](CURRENT_STATE.md)
-- [**Validation Summary**](VALIDATION_SUMMARY.md)
-- [**Failures and Lessons**](FAILURES_AND_LESSONS.md)
-- [**Local AI Lab**](LOCAL_AI_LAB.md)
+| Artifact | What you can inspect directly |
+|---|---|
+| [Auditable engine subset](auditable_example/README.md) | Exact contract text, code, fixtures, adversarial cases and tests. |
+| [Technical Evidence Index](TECHNICAL_EVIDENCE_INDEX.md) | Claim-to-artifact map and which claims are public vs private-only. |
+| [Selected Test & Evaluation Evidence](SELECTED_VALIDATION_EVIDENCE.md) | Internal benchmark/regression results with explicit limits. |
+| [Longitudinal Transition Evidence](LONGITUDINAL_TRANSITION_EVIDENCE.md) | Sanitized real-world incident patterns and how they became regression candidates. |
+| [CRM Migration Case Study](CRM_MIGRATION_PRESERVATION_CASE_STUDY.md) | Synthetic/sanitized transition method and preservation logic. |
+| [Current State](CURRENT_STATE.md) | What is actually implemented, what is only tested, and what remains unproven. |
+| [Failures and Lessons](FAILURES_AND_LESSONS.md) | Recorded failures, partials, corrections and no-repeat lessons. |
 
-## Newer technical progress — August 18–19, 2026
+## Important distinction: internal tests are not independent validation
 
-The private control plane has advanced beyond the August 17 R3.5 freeze in two evidence-driven ways without changing production authority.
+The project has internal benchmark, regression and CI results. Those are useful for reproducibility and preventing known failures from returning, but they are **self-authored engineering evidence**, not independent certification.
 
-### Real-evidence corpus evaluation
+For example, private test counts such as `21/21 PASS` or `9/9 PASS` mean the current implementation satisfies the tests currently defined by the project. They do **not** prove that the tests are complete, correctly calibrated, or resistant to every external challenge.
 
-Seven public raw sources were evaluated through the existing 17-contract Operational Continuity Engine.
+That is why this public room now exposes a runnable subset: a reviewer can modify the inputs, add adversarial cases, and try to break the behavior directly.
 
-Current sanitized aggregate:
+## Real-evidence corpus result: how to read 0/119 PASS
 
-- **7 acquired and normalized sources**;
-- **119 contract evaluations**;
-- **30 PARTIAL / 6 FAIL / 83 UNKNOWN / 0 PASS** across the source-evidence evaluations;
-- **7/7 evidence bundles verified**;
-- **4 governed learning candidates**, all unpromoted;
-- existing Brain suite: **21/21 PASS**;
-- corpus-specific regression suite: **9/9 PASS**;
-- no Brain architecture or canonical-contract change was required;
-- no model training or fine-tuning occurred.
+Seven public-source evidence sets were evaluated against the broader private 17-contract engine. The aggregate was:
 
-The large number of UNKNOWN/PARTIAL states is intentional evidence discipline: public source material that does not prove a contract is not silently converted into PASS.
+- 119 contract evaluations;
+- 30 `PARTIAL`;
+- 6 `FAIL`;
+- 83 `UNKNOWN`;
+- 0 `PASS`.
 
-### Longitudinal transition evidence
+This is **not presented as a success rate** and should not be read as proof that the engine is well calibrated. The source documents were not complete migration dossiers, so many contracts lacked enough evidence to pass. The engine deliberately kept missing facts as `UNKNOWN`.
 
-A separate sanitized real-world transition evidence stream produced three new regression-backed rule candidates under existing contracts:
+At the same time, `0/119 PASS` is a legitimate calibration question for external reviewers: are the contracts appropriately strict, are the evidence requirements practical, and does the engine distinguish useful signal from missing context? That question remains open to challenge rather than being explained away as automatically positive.
 
-1. duplicate downstream storage/business side effects must fail idempotency/reconciliation checks;
-2. unresolved assignment must not broaden data/conversation visibility;
-3. record existence must not substitute for lifecycle/business-class meaning.
+## What remains private
 
-The same evidence also exposed three important coverage-gap candidates that remain pending rather than being forced into the current contract set:
+The private GoNica control plane contains:
 
-- source/destination record cardinality + lifecycle-state parity;
-- whole-company stakeholder/department readiness before rollout;
-- employee task work-method parity beyond task-object existence.
+- the full current 17-contract registry;
+- the complete deterministic reference implementation;
+- broader synthetic/adversarial fixtures;
+- private transition evidence;
+- internal CI, manifests, reports and evidence bundles;
+- credentials, private operating records and other material that cannot responsibly be public.
 
-[Inspect the sanitized longitudinal evidence →](LONGITUDINAL_TRANSITION_EVIDENCE.md)
+Private existence is **not** the same thing as public independent verification. Where a claim depends on private-only artifacts, this repository labels that limitation instead of asking a reviewer to infer proof from narrative.
+
+## Current bounded technical claims
+
+The project can currently support these limited statements:
+
+- an explicit contract-based evidence evaluation mechanism exists;
+- a public executable subset exposes 3 real contract checks and adversarial behavior;
+- the private reference implementation currently contains 17 explicit contract checks;
+- internal regression/CI programs exist and preserve failures/partials rather than rewriting them;
+- real public-source evidence and sanitized real-world transition incidents have been used to challenge the rules;
+- some incident classes have become regression-backed candidates while other gaps remain explicitly unpromoted;
+- production deployment and external-customer outcomes are not proven by these artifacts.
+
+## Context, architecture and story
+
+These pages provide context. They are **not substitutes for technical evidence**:
+
+- [Architecture](ARCHITECTURE.md)
+- [Conceptual Map](CONCEPTUAL_MAP.md)
+- [Project Map](PROJECT_MAP.md)
+- [Founder Story](FOUNDER_STORY.md)
+- [Local AI Lab](LOCAL_AI_LAB.md)
 
 ## Public operating surface
 
-GoNica Marketing now has a live public website at **https://gonicamarketing.com/** and has begun targeted pilot-partner recruitment around operational continuity for acquisitions and complex transitions.
+GoNica Marketing has a live public website at **https://gonicamarketing.com/** and is exploring pilot relationships around operational continuity for acquisitions and complex business-system transitions.
 
-This is a business-development milestone, **not** a production-customer or revenue claim. GoNica remains founder-led and pre-incorporation at this stage.
-
-## Current project layers
-
-| Layer | Role |
-|---|---|
-| **GoNica Brain** | Company understanding, business memory, governance, evidence, reasoning, operational continuity, testing, decision support, and controlled learning. |
-| **GoNica Marketing** | Reusable implementation, onboarding, CRM/system work, workflow assembly, packaging, deployment and pilot-recruitment layer. |
-| **GoNica Tours** | First owner-controlled operating proof environment where systems are tested against a real company being built. |
-| **GoHighLevel / connected tools** | Execution environments. Tools act; the Brain governs what should happen, why, and under what authority. |
-| **Local AI Lab** | Experimental compute layer used to test local-model feasibility and expose hardware constraints. |
+This is business-development activity, not proof of production customers, revenue, or enterprise deployment.
 
 ## Evidence discipline
 
-This repository deliberately distinguishes:
+This repository distinguishes:
 
-- **BUILT** — implemented in some form.
-- **TESTED** — exercised against defined test cases.
-- **OWNER-ACCEPTED** — reviewed and accepted by the owner.
-- **PRODUCTION-READY** — separately authorized for live use.
+- **BUILT** — implemented in some form;
+- **INTERNAL-TESTED** — exercised against project-authored tests;
+- **PUBLICLY-AUDITABLE** — enough artifact/code is exposed for an outside reviewer to inspect or reproduce selected behavior;
+- **OBSERVED** — supported by sanitized real-world evidence without implying GoNica production deployment;
+- **OWNER-ACCEPTED** — explicitly accepted by the owner;
+- **PRODUCTION-READY** — separately authorized for live production use.
 
-A successful experiment is not automatically a production claim. A later correction does not erase an earlier partial result; both remain part of the evidence history.
-
-## Public-sanitization boundary
-
-This repository is **not** the private GoNica control plane. It intentionally excludes credentials, OAuth secrets, production tokens, unrestricted private source material, raw customer PII, private CRM databases, contact lists, employer data, implementation-vendor private communications, and other material that does not belong in a public technical review surface.
+A passing internal test is not independent validation. A sanitized case is not a customer claim. A public explanation is not evidence unless the underlying artifact can also be inspected or its limitation is stated.
 
 ## Why this repository exists
 
-It is meant for technical reviewers, accelerators, partners, hardware and infrastructure companies, potential co-founders, mentors, pilot partners, and other people deciding whether GoNica deserves deeper diligence or support.
+It is for engineers, technical reviewers, potential co-founders, accelerators, partners, mentors and pilot partners who want to examine the project without receiving the private control plane.
 
-The goal is not to ask a reviewer to trust a pitch. The goal is to give them enough structure and evidence to **inspect the project for themselves**.
+The standard for this repository is now simple:
+
+> **Show the artifact when it can be shown. State the limitation when it cannot. Do not replace missing evidence with narrative.**
