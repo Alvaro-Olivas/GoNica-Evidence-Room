@@ -1,0 +1,35 @@
+{
+  "subset_id": "OCE_PUBLIC_AUDITABLE_SUBSET_20260819",
+  "component": "Operational Continuity Engine",
+  "status": "PUBLIC_INSPECTION_SUBSET",
+  "production_authorized": false,
+  "contracts": [
+    {
+      "id": "B09-01",
+      "name": "Lifecycle Capability Contract",
+      "severity": "HIGH",
+      "required": "Identify reusable lifecycle capability first; preserve meaningful company vocabulary; map local stages/statuses to capabilities; add canonical terms only for evidenced gaps.",
+      "prohibited": "Assuming one company's exact pipeline vocabulary is universal.",
+      "evidence": "Source vocabulary, explicit crosswalk, and representative cases.",
+      "regression": "Two companies with different stage vocabularies must preserve their semantics while binding to the same reusable capability model."
+    },
+    {
+      "id": "B09-06",
+      "name": "Identity Match != Data-Sharing Authority",
+      "severity": "CRITICAL",
+      "required": "Identity match, tenant boundary, consent, purpose and sharing authority remain separate checks.",
+      "prohibited": "Merging, disclosing, or reusing all associated data solely because two records represent the same person or company.",
+      "evidence": "Identity evidence plus explicit purpose, scope, and sharing authorization evidence.",
+      "regression": "Matched identities across separated scopes must remain data-separated absent authority."
+    },
+    {
+      "id": "B09-08",
+      "name": "Business Event Identity != Transport Attempt",
+      "severity": "HIGH",
+      "required": "Stable business-event/idempotency key; separate retry/transport-attempt identity; last processed state; safe replay behavior.",
+      "prohibited": "Treating duplicate webhook, API, or queue attempts as new business events.",
+      "evidence": "Business-event identity, retry history, idempotency behavior, and observed downstream side-effect count.",
+      "regression": "Replay produces one business outcome."
+    }
+  ]
+}
