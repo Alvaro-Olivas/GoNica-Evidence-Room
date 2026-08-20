@@ -1,0 +1,36 @@
+{
+  "dossier_id": "PUBLIC-SYNTHETIC-COMPLETE",
+  "lifecycle_bindings": [
+    {
+      "company_stage": "Callback Requested",
+      "capability_id": "FOLLOW_UP_PENDING",
+      "forced_universal_vocabulary": false,
+      "evidence_refs": ["SYN-LIFECYCLE-01"]
+    },
+    {
+      "company_stage": "Closed Lost",
+      "capability_id": "OPPORTUNITY_LOST",
+      "forced_universal_vocabulary": false,
+      "evidence_refs": ["SYN-LIFECYCLE-02"]
+    }
+  ],
+  "data_sharing": [
+    {
+      "identity_matched": true,
+      "data_shared": true,
+      "authorized": true,
+      "purpose": "project-service continuity",
+      "scope": "same approved account",
+      "evidence_refs": ["SYN-SHARE-01"]
+    }
+  ],
+  "business_events": [
+    {
+      "business_event_id": "CONTRACT-SIGNED-0001",
+      "transport_attempts": 3,
+      "idempotency_key": "CONTRACT-SIGNED-0001",
+      "side_effect_count": 1,
+      "evidence_refs": ["SYN-EVENT-01"]
+    }
+  ]
+}
