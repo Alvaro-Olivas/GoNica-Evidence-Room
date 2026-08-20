@@ -1,8 +1,9 @@
 {
-  "subset_id": "OCE_PUBLIC_AUDITABLE_SUBSET_20260819",
+  "subset_id": "OCE_PUBLIC_AUDITABLE_SUBSET_20260819_R2",
   "component": "Operational Continuity Engine",
   "status": "PUBLIC_INSPECTION_SUBSET",
   "production_authorized": false,
+  "coverage_note": "These are broader engineering contracts. The public evaluator exposes a bounded deterministic subset of each contract. deterministic_coverage states what the executable example actually checks; coverage_boundary states what it does not yet prove.",
   "contracts": [
     {
       "id": "B09-01",
@@ -11,7 +12,9 @@
       "required": "Identify reusable lifecycle capability first; preserve meaningful company vocabulary; map local stages/statuses to capabilities; add canonical terms only for evidenced gaps.",
       "prohibited": "Assuming one company's exact pipeline vocabulary is universal.",
       "evidence": "Source vocabulary, explicit crosswalk, and representative cases.",
-      "regression": "Two companies with different stage vocabularies must preserve their semantics while binding to the same reusable capability model."
+      "regression": "Two companies with different stage vocabularies must preserve their semantics while binding to the same reusable capability model.",
+      "deterministic_coverage": "The public evaluator requires explicit company_stage, capability_id, and forced_universal_vocabulary fields. Missing required fields become PARTIAL; forced_universal_vocabulary=true becomes FAIL.",
+      "coverage_boundary": "The public subset does not by itself prove the quality of a full source-to-target crosswalk or representative behavior across multiple real companies."
     },
     {
       "id": "B09-06",
@@ -20,7 +23,9 @@
       "required": "Identity match, tenant boundary, consent, purpose and sharing authority remain separate checks.",
       "prohibited": "Merging, disclosing, or reusing all associated data solely because two records represent the same person or company.",
       "evidence": "Identity evidence plus explicit purpose, scope, and sharing authorization evidence.",
-      "regression": "Matched identities across separated scopes must remain data-separated absent authority."
+      "regression": "Matched identities across separated scopes must remain data-separated absent authority.",
+      "deterministic_coverage": "The public evaluator requires explicit identity_matched, data_shared, and authorized states. If data_shared=true it also requires purpose and scope; explicit unauthorized sharing becomes FAIL.",
+      "coverage_boundary": "The public subset does not independently verify tenant-boundary provenance, consent provenance, or legal/organizational authority beyond the structured evidence supplied to the evaluator."
     },
     {
       "id": "B09-08",
@@ -29,7 +34,9 @@
       "required": "Stable business-event/idempotency key; separate retry/transport-attempt identity; last processed state; safe replay behavior.",
       "prohibited": "Treating duplicate webhook, API, or queue attempts as new business events.",
       "evidence": "Business-event identity, retry history, idempotency behavior, and observed downstream side-effect count.",
-      "regression": "Replay produces one business outcome."
+      "regression": "Replay produces one business outcome.",
+      "deterministic_coverage": "The public evaluator requires explicit business_event_id, transport_attempts, side_effect_count, and idempotency_key. Missing fields become PARTIAL; duplicate side effects become FAIL.",
+      "coverage_boundary": "The public subset does not yet independently verify last-processed-state semantics or safe replay behavior against a live transport/integration. Those remain broader contract requirements outside this public deterministic example."
     }
   ]
 }
