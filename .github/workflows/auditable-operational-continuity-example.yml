@@ -1,0 +1,35 @@
+name: Auditable Operational Continuity Example
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'auditable_example/**'
+      - '.github/workflows/auditable-operational-continuity-example.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'auditable_example/**'
+      - '.github/workflows/auditable-operational-continuity-example.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-public-subset:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run public Operational Continuity subset tests
+        run: python -m unittest auditable_example/test_evaluator.py -v
+
+      - name: Run passing example
+        run: python auditable_example/evaluator.py auditable_example/fixtures/complete.json
