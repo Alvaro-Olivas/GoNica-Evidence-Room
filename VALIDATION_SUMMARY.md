@@ -1,116 +1,164 @@
-# Validation Summary
+# Test & Validation Summary
 
 **Updated:** August 19, 2026
 
-GoNica treats testing as separate from discussion, design, observation and production use. A capability can be described, implemented, tested, observed against real evidence, owner-accepted, and production-authorized at different times.
+GoNica separates implementation, internal testing, public auditability, observation and production use.
 
-## Selected validated areas
+The project has substantial **internal** test history. Most of those tests were written by the same project that implements the system. They are useful for regression control, but they are not independent validation.
 
-- **Operational-continuity regression:** 72 original controlled executions recorded 59 PASS / 13 PARTIAL / 0 FAIL. The 13 original partials were preserved and separately followed by 13 targeted correction regressions, all of which passed. This produces an 85-execution evidence history without rewriting the original results.
-- **Canonical Brain controls:** 17 operational-continuity/governance contracts are maintained in a machine-readable registry, and all 17 provider-neutral deterministic reference checks are implemented in the current offline reference engine.
-- **Controlled learning:** the R3/R3.5 reference engine can route incident/correction evidence through evidence → incident → root cause → generalized rule → migration requirement → regression, while preserving privacy and human-review boundaries.
-- **Human-readable evidence:** the current reference engine can generate analysis reports and hash-verifiable evidence bundles from synthetic or sanitized company cases.
-- **Repository CI:** Brain unit tests are included in the standard private Control Plane validation workflow before manifest reconciliation.
-- **Governed GoHighLevel bridge:** historical synthetic/sanitized acceptance tests completed successfully across the selected test set; bounded historical live-read evidence also exists.
-- **CRM migration/preservation:** selected offline validation demonstrated preservation and mapping behavior on defined cases.
-- **Real-evidence corpus:** seven public-source datasets have been evaluated through the same 17-contract engine, with missing/incomplete evidence retained as UNKNOWN/PARTIAL instead of upgraded to PASS.
-- **Incident-derived regressions:** a separate sanitized longitudinal transition evidence stream generated three new regression-backed rule candidates under existing contracts.
-- **Safety boundaries:** production and external execution can remain intentionally blocked even when lower-level tests pass.
+For directly reproducible public evidence, start with the [Auditable Operational Continuity Engine Example](auditable_example/README.md).
 
-## Validation pattern
+## Evidence levels used here
 
-```mermaid
-flowchart LR
-    D[Designed] --> B[Built]
-    B --> T[Tested]
-    T --> E[Observed against stronger / real evidence]
-    E --> O[Owner reviewed]
-    O --> P[Production authorized]
+```text
+DESCRIBED
+→ BUILT
+→ INTERNAL-TESTED
+→ PUBLICLY-AUDITABLE (when artifact can be exposed)
+→ EXTERNALLY-CHALLENGED
+→ BOUNDED LIVE PROOF
+→ PRODUCTION AUTHORIZATION
 ```
 
-These states are intentionally not collapsed into one label.
+A component can stop at any of these levels. They are not interchangeable.
+
+## Publicly auditable evidence
+
+The Evidence Room currently exposes a runnable subset of the Operational Continuity Engine with:
+
+- 3 exact contracts;
+- deterministic code;
+- synthetic input;
+- adversarial cases;
+- regression tests;
+- public GitHub Actions CI.
+
+This is the strongest public evidence in the repository because a reviewer can modify the inputs and challenge the behavior directly.
+
+It still does not constitute independent approval of the design.
+
+## Internal regression history
+
+### Operational-continuity program
+
+Original project-authored executions:
+
+- 72 total;
+- 59 PASS;
+- 13 PARTIAL;
+- 0 FAIL.
+
+Later targeted correction regressions:
+
+- 13 additional executions;
+- 13 PASS.
+
+The earlier partial results were preserved rather than rewritten after corrections passed.
+
+### Current private reference engine
+
+The private control plane records:
+
+- 17 explicit continuity/governance contracts;
+- 17 deterministic checks;
+- synthetic and adversarial fixtures;
+- internal tests preventing selected unsafe conditions from passing;
+- incident-to-regression handling;
+- reports and evidence bundles.
+
+Only 3 contracts are currently exposed publicly as executable code. The remaining private implementation is a project claim supported by private artifacts, not something this public repository independently proves.
+
+## Real-evidence corpus
+
+Seven public-source evidence sets were evaluated through the private engine.
+
+Aggregate:
+
+- 119 evaluations;
+- 30 PARTIAL;
+- 6 FAIL;
+- 83 UNKNOWN;
+- 0 PASS.
+
+This is not a GoNica quality score.
+
+The input sources were incomplete relative to the full contract set, so many questions could not be answered. Preserving `UNKNOWN` instead of inventing `PASS` is intentional.
+
+However, the `0/119 PASS` result also creates an unresolved calibration question. External reviewers are justified in asking whether:
+
+- the contracts are too strict;
+- applicability is modeled well enough;
+- evidence normalization discards useful signal;
+- the source set is unsuitable for the questions being asked.
+
+The project does not treat those questions as settled merely because the current engine behaved consistently with its own rules.
+
+## Internal suite counts
+
+Private records currently include results such as:
+
+- Brain suite: 21/21 PASS;
+- corpus regression suite: 9/9 PASS;
+- targeted correction regressions: 13/13 PASS.
+
+Correct interpretation:
+
+> The current implementation satisfies the current project-authored tests.
+
+Incorrect interpretation:
+
+> The system has been independently proven correct.
+
+The second statement is not supported.
+
+## Longitudinal observational evidence
+
+A private multi-week business-system transition record was sanitized and generalized into incident classes.
+
+Three incident classes currently have internal regression coverage under existing contracts:
+
+1. duplicate downstream side effects;
+2. unauthorized/overbroad data visibility;
+3. lifecycle/business-class ambiguity.
+
+Other gaps remain deliberately unpromoted, including object/state parity, whole-company readiness and task work-method continuity.
+
+Because the original company evidence is private, this public repository exposes the generalized lesson and its limits, not an independently reconstructable customer case.
 
 ## Correction discipline
 
-GoNica does not convert an earlier PARTIAL into a historical PASS simply because a correction later succeeds.
-
-The evidence pattern is:
+Earlier results are not rewritten after later corrections.
 
 ```text
 ORIGINAL RESULT
-→ IDENTIFIED GAP
-→ CORRECTION CONTRACT / REQUIREMENT
-→ TARGETED REGRESSION
+→ GAP IDENTIFIED
+→ REQUIREMENT / CORRECTION
+→ REGRESSION
 → NEW RESULT
 ```
 
-That distinction matters because the project is intended to learn from mistakes without erasing them.
+That preserves the history of what actually failed or remained incomplete.
 
-## Real-evidence discipline
+## What stronger validation requires next
 
-The August 18 public-source corpus evaluation used the existing 17-contract engine without changing the architecture merely to fit the data.
+The next tier should not be more self-authored green tests. It should include some combination of:
 
-Sanitized aggregate:
+- independent code review;
+- reviewer-authored adversarial cases;
+- fuzz/property-based testing where appropriate;
+- independent contract-calibration review;
+- bounded live trials with measurable outcomes;
+- external pilot/customer evidence.
 
-- **7 sources** acquired/normalized;
-- **119 contract evaluations**;
-- **30 PARTIAL**;
-- **6 FAIL**;
-- **83 UNKNOWN**;
-- **0 PASS**;
-- **7/7 evidence bundles verified**;
-- **4 governed learning candidates**, all unpromoted;
-- existing Brain suite: **21/21 PASS**;
-- corpus regressions: **9/9 PASS**.
+## Current boundary
 
-The source-evidence states are not a score of GoNica itself. They represent how much each public source actually proves about the required contracts. A source that does not contain enough evidence remains `UNKNOWN` or `PARTIAL`.
+Public evidence supports an early-stage technical system with inspectable selected logic and a disciplined internal regression process.
 
-This is an important validation behavior:
+It does **not** establish:
 
-```text
-MISSING EVIDENCE != PASS
-```
-
-## Longitudinal incident-to-regression evidence
-
-A separate real-world transition evidence stream spanning multiple weeks was sanitized and generalized before entering the Brain learning path.
-
-Three incident-derived tests now pass under existing contracts:
-
-1. duplicate downstream side effects are treated as an idempotency/reconciliation failure;
-2. unresolved assignment does not authorize broad conversation/data exposure;
-3. incomplete lifecycle/business-class mapping cannot be treated as completed continuity.
-
-The same evidence also exposed important pending gaps around source/destination object parity, whole-company stakeholder readiness, and task work-method semantics.
-
-Those pending gaps remain **unpromoted** until falsifiable regression/design coverage exists.
-
-## Why this matters
-
-AI-assisted development can create a dangerous illusion of completion. A system may sound coherent in conversation while the actual implementation is incomplete, stale, or unverified. GoNica therefore attempts to preserve evidence of the real state instead of relying on narrative memory alone.
-
-The introduction of real-evidence and longitudinal-observation layers is specifically intended to challenge the synthetic foundation rather than simply add more green tests.
-
-## Evidence categories used internally
-
-- Authority and scope documents
-- Implementation artifacts
-- Test output
-- Synthetic/sanitized acceptance cases
-- Public-source evidence dossiers
-- Longitudinal observed transition evidence
-- Failure and exception records
-- Contract/requirement registries
-- Hashes and manifests
-- Savepoints and continuation records
-- Owner decisions and production gates
-
-## Current validation boundary
-
-The current public evidence supports meaningful **offline/synthetic/sanitized technical development claims and bounded observational learning claims**. It does not establish broad production readiness.
-
-Current live HighLevel behavior, live cross-system continuity, production rollback/compensation, completed external pilots, and external-customer outcomes remain separate validation gates.
-
-## Public-room limitation
-
-This repository provides a reduced review surface. The private control plane contains substantially more detailed evidence, but unrestricted private source material, credentials, customer information, employer data, implementation-vendor private communications and sensitive operational data are intentionally excluded here.
+- broad production readiness;
+- independent correctness of the 17-contract model;
+- external-customer outcomes;
+- enterprise-scale deployment;
+- security/compliance certification;
+- broad live cross-system continuity.
