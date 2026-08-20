@@ -1,0 +1,52 @@
+{
+  "cases": [
+    {
+      "id": "ADV-LIFECYCLE-FORCED-VOCABULARY",
+      "expected_contract": "B09-01",
+      "expected_state": "FAIL",
+      "dossier": {
+        "lifecycle_bindings": [
+          {
+            "company_stage": "Hot Lead",
+            "capability_id": "HOT_LEAD",
+            "forced_universal_vocabulary": true,
+            "evidence_refs": ["ADV-LIFE-01"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "ADV-IDENTITY-MATCH-UNAUTHORIZED-SHARING",
+      "expected_contract": "B09-06",
+      "expected_state": "FAIL",
+      "dossier": {
+        "data_sharing": [
+          {
+            "identity_matched": true,
+            "data_shared": true,
+            "authorized": false,
+            "purpose": "unspecified reuse",
+            "scope": "cross-account",
+            "evidence_refs": ["ADV-SHARE-01"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "ADV-REPLAY-DUPLICATE-SIDE-EFFECT",
+      "expected_contract": "B09-08",
+      "expected_state": "FAIL",
+      "dossier": {
+        "business_events": [
+          {
+            "business_event_id": "DOC-SIGNED-0007",
+            "transport_attempts": 2,
+            "idempotency_key": "DOC-SIGNED-0007",
+            "side_effect_count": 2,
+            "evidence_refs": ["ADV-EVENT-01"]
+          }
+        ]
+      }
+    }
+  ]
+}
