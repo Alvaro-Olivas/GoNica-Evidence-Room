@@ -1,11 +1,13 @@
 import json
+import sys
 import unittest
 from pathlib import Path
 
-from evaluator import evaluate_dossier
-
 ROOT = Path(__file__).resolve().parent
 FIXTURES = ROOT / "fixtures"
+sys.path.insert(0, str(ROOT))
+
+from evaluator import evaluate_dossier  # noqa: E402
 
 
 def load_json(path: Path):
