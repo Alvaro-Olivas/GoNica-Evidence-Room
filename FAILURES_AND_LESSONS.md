@@ -1,6 +1,31 @@
 # Failures and Lessons
 
-This project has not advanced in a straight line. The failures are part of the architecture because they explain why governance, evidence, and owner control became necessary.
+This project has not advanced in a straight line. The failures are part of the architecture because they explain why evidence, testing and owner control became necessary.
+
+## Evidence Room lesson: explanation is not evidence
+
+A public repository can describe contracts, regression suites, evidence bundles and validation discipline in accurate language and still fail as an **evidence room** if an outside engineer cannot inspect the underlying mechanism.
+
+That happened here.
+
+The repository had become too narrative: it explained categories of technical evidence more clearly than it exposed technical artifacts. A reviewer correctly pointed out that a README describing a 17-contract engine is not the same thing as showing contract definitions, evaluation logic and reproducible tests.
+
+The corrective rule is now:
+
+```text
+DESCRIPTION OF EVIDENCE
+!=
+EVIDENCE
+```
+
+For public technical claims:
+
+1. expose the artifact when it can responsibly be exposed; or
+2. state clearly that the artifact remains private and reduce the public claim accordingly.
+
+The Evidence Room now includes a runnable public subset of the Operational Continuity Engine with exact contract definitions, deterministic code, synthetic/adversarial fixtures and tests.
+
+A related lesson is that project-authored tests must be labeled honestly. `21/21 PASS`, `9/9 PASS`, or similar counts are **internal regression evidence**, not independent validation.
 
 ## Repeated lesson: conversation is not state
 
@@ -89,9 +114,9 @@ Candidate rule:
 
 The August real-evidence corpus evaluation produced many `UNKNOWN`, `PARTIAL` and some `FAIL` states rather than a page of green results.
 
-That is intentional.
+That is intentional, but it is not automatically proof of good calibration.
 
-If a public source does not prove a contract, GoNica should not manufacture confidence. Missing facts remain missing until stronger evidence exists.
+If a public source does not prove a contract, GoNica should not manufacture confidence. Missing facts remain missing until stronger evidence exists. At the same time, external reviewers should challenge whether the contracts and applicability model are practical enough to produce meaningful PASS conditions when suitable evidence exists.
 
 ## Campaign lesson
 
@@ -122,4 +147,4 @@ flowchart LR
     L --> N[No-repeat rule / reusable pattern]
 ```
 
-The purpose of documenting failure is not to dramatize it. It is to reduce the probability of paying for the same mistake twice — and to avoid pretending that incomplete evidence is complete.
+The purpose of documenting failure is not to dramatize it. It is to reduce the probability of paying for the same mistake twice — including the mistake of replacing missing public proof with stronger-sounding narrative.
