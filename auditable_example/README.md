@@ -2,17 +2,17 @@
 
 This folder is a **public, executable subset** of the current GoNica Operational Continuity Engine.
 
-It exists so a technical reviewer does not have to trust narrative claims about the engine. The reviewer can inspect three exact contracts, read the deterministic evaluation logic, run a passing synthetic dossier, run adversarial cases, and verify that missing evidence does not become `PASS`.
+It exists so a technical reviewer does not have to trust narrative claims about the engine. The reviewer can inspect three contract definitions, read the deterministic evaluation logic, run a passing synthetic dossier, run adversarial cases, and challenge how incomplete evidence is classified.
 
 The current private engine contains a broader 17-contract set. This public subset exposes only three contracts chosen because they are easy to understand and directly tied to recurring transition failures.
 
 ## What is exposed
 
-1. [`contracts.json`](contracts.json) — exact public definitions for three contracts.
+1. [`contracts.json`](contracts.json) — public definitions for three contracts.
 2. [`evaluator.py`](evaluator.py) — deterministic evaluation logic for those contracts.
 3. [`fixtures/complete.json`](fixtures/complete.json) — one synthetic dossier expected to pass all three.
 4. [`fixtures/adversarial_cases.json`](fixtures/adversarial_cases.json) — three deliberately unsafe cases.
-5. [`test_evaluator.py`](test_evaluator.py) — executable regression tests.
+5. [`test_evaluator.py`](test_evaluator.py) — executable regression tests, including partial-item missing-evidence cases.
 
 ## The three contracts
 
@@ -28,7 +28,7 @@ Knowing that two records identify the same person or company does not itself aut
 
 Webhook/API/queue retries must not create duplicate business outcomes. A stable business-event identity and idempotent behavior are required when an action can be replayed.
 
-The exact Required / Prohibited / Evidence / Regression definitions are in [`contracts.json`](contracts.json).
+The Required / Prohibited / Evidence / Regression definitions are in [`contracts.json`](contracts.json).
 
 ## Run it
 
@@ -41,16 +41,51 @@ python -m unittest auditable_example/test_evaluator.py -v
 
 The code uses only the Python standard library.
 
-Expected test behavior:
+Current regression coverage includes:
 
 ```text
-test_complete_synthetic_dossier_passes_all_three_contracts ... ok
-test_all_adversarial_cases_fail_the_intended_contract ... ok
-test_missing_evidence_never_becomes_pass ... ok
-test_retry_without_idempotency_evidence_is_partial ... ok
+complete synthetic dossier -> all three PASS
+three explicit adversarial cases -> intended contract FAIL
+missing evidence family -> UNKNOWN, never PASS
+B09-08 item present but side-effect/retry evidence missing -> PARTIAL
+B09-08 retry without idempotency evidence -> PARTIAL
+B09-01 item missing explicit universal-vocabulary decision -> PARTIAL
+B09-06 item missing sharing-authority evidence -> PARTIAL
 ```
 
 The important point is not the number of tests. These are **internal deterministic regression tests**, not independent third-party validation. Their purpose is to make the evaluation behavior inspectable and falsifiable.
+
+## External-review correction — partial item evidence
+
+An external technical review found a real defect in the first public version of `B09-08`.
+
+The original evaluator used permissive defaults:
+
+```python
+transport_attempts -> default 1
+side_effect_count  -> default 0
+```
+
+That meant this incomplete item could incorrectly reach `PASS`:
+
+```json
+{
+  "business_events": [
+    {"idempotency_key": "abc"}
+  ]
+}
+```
+
+The problem was not merely missing test coverage. The evaluator was converting **absence of evidence** into apparently safe values.
+
+The current evaluator no longer does that. For `B09-08`, required event/retry/side-effect fields must be explicitly present before the item can pass. The exact counterexample above is now a regression test and must resolve to `PARTIAL`.
+
+The same review pattern was applied to the other two public contracts:
+
+- `B09-01` now requires an explicit `forced_universal_vocabulary` decision rather than treating an absent flag as `false`;
+- `B09-06` now requires explicit identity-match, sharing-state, and authorization evidence rather than treating absent fields as safe.
+
+This correction is intentionally visible because an Evidence Room should preserve discovered weaknesses and their fixes, not silently rewrite the history.
 
 ## Try to break it
 
@@ -59,8 +94,11 @@ A reviewer can edit the JSON fixtures or create a new dossier.
 Examples:
 
 - remove `capability_id` from a lifecycle binding: the result should become `PARTIAL`, not `PASS`;
+- omit `forced_universal_vocabulary`: `B09-01` should become `PARTIAL`;
 - set `forced_universal_vocabulary` to `true`: `B09-01` should `FAIL`;
+- supply only `identity_matched=true` with no sharing/authority state: `B09-06` should become `PARTIAL`;
 - set `data_shared=true` and `authorized=false`: `B09-06` should `FAIL`;
+- supply only an `idempotency_key` with no retry/side-effect evidence: `B09-08` should become `PARTIAL`;
 - make `side_effect_count` greater than 1: `B09-08` should `FAIL`;
 - remove an entire evidence family: the affected contract should become `UNKNOWN`, never silently `PASS`.
 
