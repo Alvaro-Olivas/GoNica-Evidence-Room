@@ -25,7 +25,88 @@ For public technical claims:
 
 The Evidence Room now includes a runnable public subset of the Operational Continuity Engine with exact contract definitions, deterministic code, synthetic/adversarial fixtures and tests.
 
-A related lesson is that project-authored tests must be labeled honestly. `21/21 PASS`, `9/9 PASS`, or similar counts are **internal regression evidence**, not independent validation.
+A related lesson is that project-authored tests must be labeled honestly. Historical counts such as `21/21 PASS` or `9/9 PASS`, and later counts such as the Phase 2 `41/41 PASS`, are **internal regression evidence**, not independent validation.
+
+## Missing-evidence lesson: safe defaults can create false PASS
+
+The first public B09-08 evaluator exposed a real logic defect during external adversarial review.
+
+A partially populated item such as an event containing an idempotency key but missing explicit attempt/side-effect evidence could inherit permissive defaults and reach `PASS`.
+
+That violated the intended rule:
+
+```text
+MISSING EVIDENCE != PASS
+```
+
+The lesson was broader than one line of code. A deterministic evaluator must distinguish:
+
+- evidence family absent;
+- evidence family present but empty;
+- item present but incomplete;
+- complete safe evidence;
+- explicit unsafe/contradictory evidence.
+
+A green suite that tests only explicit contradictions can still miss the separate attack vector **"gate field absent"**.
+
+The correction cycle therefore added a second adversarial class — present-but-incomplete evidence — across the private 17-contract registry, plus real schema validation before deterministic evaluation.
+
+The deeper rule is:
+
+```text
+SAFE WHEN EXPLICIT
+!=
+SAFE WHEN UNSPECIFIED
+```
+
+## Test-name lesson: a broad name is not broad coverage
+
+The original missing-evidence hardening tests covered only the first three hardened contracts, while the filename could reasonably sound like a general engine property. Likewise, a 17/17 adversarial suite covered one explicit-contradiction pattern per contract, not every adversarial class.
+
+The correction was not to rename history away. It was to add explicit coverage and make the claim match the test:
+
+- vector 1: explicit contradiction / unsafe evidence;
+- vector 2: present-but-incomplete / missing required evidence.
+
+The private suite now contains a meta-regression requiring both vectors to cover the same full 17-contract registry.
+
+General rule:
+
+```text
+TEST NAME != PROOF OF TEST SCOPE
+```
+
+## Schema lesson: a schema file is not a validation boundary
+
+The project had a transition-dossier JSON Schema, but CI originally only parsed schema files as JSON. The engine did not actually validate dossiers against the schema before evaluation.
+
+That meant tightening `required` fields in the schema alone would have had no runtime effect.
+
+The Phase 2 correction added executable Draft 2020-12 validation before deterministic checks, plus typo/required-field regressions.
+
+General rule:
+
+```text
+SCHEMA EXISTS != SCHEMA ENFORCED
+```
+
+## External-review lesson: useful criticism should become regression evidence
+
+The August 19-20 external review was not independent execution of the full private engine. The reviewer worked from exposed/pasted source artifacts.
+
+Even with that limitation, the review produced high-value counterexamples that internal suites had missed. Those counterexamples were converted into deterministic regressions and a bounded remediation.
+
+The useful outcome is not "an external reviewer approved GoNica." The useful outcome is:
+
+```text
+OUTSIDE CHALLENGE
+-> REPRODUCIBLE COUNTEREXAMPLE
+-> CORRECTION
+-> REGRESSION
+-> PRESERVED HISTORY
+```
+
+That is the standard future technical review should meet.
 
 ## Repeated lesson: conversation is not state
 
@@ -115,6 +196,8 @@ Candidate rule:
 The August real-evidence corpus evaluation produced many `UNKNOWN`, `PARTIAL` and some `FAIL` states rather than a page of green results.
 
 That is intentional, but it is not automatically proof of good calibration.
+
+After the missing-evidence/schema remediation, the same seven sanitized dossiers produced the same aggregate result. That is useful correction evidence for this batch, but it does not prove the old defects were harmless elsewhere.
 
 If a public source does not prove a contract, GoNica should not manufacture confidence. Missing facts remain missing until stronger evidence exists. At the same time, external reviewers should challenge whether the contracts and applicability model are practical enough to produce meaningful PASS conditions when suitable evidence exists.
 
