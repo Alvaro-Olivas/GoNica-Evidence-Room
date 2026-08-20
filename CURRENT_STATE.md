@@ -2,100 +2,124 @@
 
 **Updated:** August 19, 2026
 
-GoNica is an **early-stage technical venture with a working governed foundation**, not a finished SaaS product.
+GoNica is an **early-stage technical venture with implemented reference components and an active evidence/testing program**, not a finished SaaS product.
 
-GoNica Brain is broader than CRM migration. It is being developed as a governed company-intelligence and operations layer that can help reconstruct how a business works, preserve operating knowledge, identify risks and missing decisions, prepare controlled changes, test expected behavior, support human decisions, and coordinate approved execution across business systems.
+The current technical direction focuses on operational continuity during business-system transitions: preserving meaning, relationships, permissions, timing, workflow behavior and cross-system state rather than treating migration as record transfer alone.
 
-CRM/system transition is currently one of the strongest use cases because it exposes the larger problem clearly: moving records does not guarantee that relationships, responsibilities, timing, workflow meaning, permissions, notifications, documents, exceptions, employee work methods, or cross-system side effects survive.
+## What is publicly inspectable now
 
-## What exists now
+The Evidence Room now exposes a runnable subset of the **Operational Continuity Engine**:
 
-- A private control-plane repository with authority, continuity, implementation, testing, recovery, and evidence records.
-- A defined GoNica Brain architecture separating reasoning/governance from execution tools.
-- A canonical registry of **17 operational-continuity and governance contracts**.
-- All **17 provider-neutral deterministic reference checks** implemented in the current offline Brain reference engine.
-- An **85-execution operational-continuity evidence set**: 72 original controlled executions with 59 PASS / 13 PARTIAL / 0 FAIL, plus 13 separately preserved targeted correction regressions that all passed.
-- A controlled incident-to-regression learning path that can convert validated failures/corrections into governed regression requirements.
-- Human-readable analysis reports and hash-verifiable evidence bundles in the R3/R3.5 reference engine.
-- Corrected and conflict/stress full-company synthetic fixtures.
-- Brain unit tests included in the repository's standard Control Plane validation workflow.
-- A governed GoHighLevel bridge with historical synthetic acceptance testing and bounded historical live-read evidence.
-- A prepared read-only live-validation package for current HighLevel behavior; it has **not** been executed in the current R3.5 state.
-- GoNica Tours as the first owner-controlled operating proof environment.
-- GoNica Marketing as the reusable implementation and packaging layer, now with a live public website at **https://gonicamarketing.com/**.
-- A local-AI experimentation track used to test compute feasibility and expose hardware limits.
-- Savepoints, validation records, failure records, manifests, and recovery procedures.
+[**Auditable Operational Continuity Engine Example →**](auditable_example/README.md)
 
-## New evidence added after the August 17 R3.5 freeze
+That subset contains:
 
-The freeze was a stop on speculative architecture expansion, not a stop on learning from new evidence.
+- 3 exact contracts;
+- deterministic evaluation logic;
+- a passing synthetic dossier;
+- 3 adversarial cases;
+- regression tests;
+- public GitHub Actions CI.
 
-### Real-evidence transition corpus
+The exposed contracts cover lifecycle semantics, data-sharing authority, and business-event/idempotency behavior.
 
-Seven public raw sources have now been acquired/normalized and evaluated through the same 17-contract engine.
+This public subset is intentionally smaller than the private reference implementation. It exists so an engineer can inspect and challenge real logic rather than relying on project narrative.
 
-Sanitized aggregate:
+## What exists privately
 
-- **7 sources**;
-- **119 contract evaluations**;
-- **30 PARTIAL / 6 FAIL / 83 UNKNOWN / 0 PASS**;
-- **7 verified evidence bundles**;
-- **4 governed learning candidates**, all `owner_promoted:false`;
-- existing Brain suite: **21/21 PASS**;
-- corpus regression suite: **9/9 PASS**;
-- no canonical contract or Brain-architecture change was required;
-- no training/fine-tuning occurred.
+The private control plane currently records:
 
-This is an important difference from synthetic proof: incomplete real-world source evidence remains incomplete. The engine does not treat missing facts as success.
+- an internal registry of 17 explicit continuity/governance contracts;
+- 17 deterministic reference checks;
+- broader synthetic and adversarial fixtures;
+- an incident-to-regression learning path;
+- human-readable reports and hash-verifiable evidence bundles;
+- a governed GoHighLevel bridge with historical internal testing and bounded read-only evidence;
+- transition-corpus evaluation tooling;
+- savepoints, manifests, failure records and continuation records.
 
-### Longitudinal transition evidence
+Only part of that implementation is exposed publicly. **Private existence should not be confused with independent public verification.**
 
-A separate sanitized real-world transition record spanning June–August produced three new regression-backed rule candidates under existing Brain contracts:
+## Internal test evidence
 
-1. duplicate downstream business/storage side effects must be rejected;
-2. unresolved assignment must not broaden conversation/data visibility;
-3. record presence must not substitute for lifecycle/business-class meaning.
+The project has several internal test histories, including:
 
-The same evidence exposed three important gap candidates that are **not** yet promoted:
+- an earlier 46-case synthetic/sanitized benchmark;
+- a 72-execution operational-continuity program with 13 preserved partials;
+- 13 targeted correction regressions;
+- the current private Brain unit/regression suites;
+- a real-evidence corpus regression suite.
 
-- source/destination record cardinality and lifecycle-state parity;
+These are project-authored tests. They are useful for regression control and reproducibility, but they are not independent certification of the design or calibration.
+
+See [Selected Test & Evaluation Evidence](SELECTED_VALIDATION_EVIDENCE.md).
+
+## Real-evidence corpus
+
+Seven public-source evidence sets were evaluated through the private 17-contract engine.
+
+Aggregate:
+
+- 119 evaluations;
+- 30 PARTIAL;
+- 6 FAIL;
+- 83 UNKNOWN;
+- 0 PASS.
+
+This is not presented as a pass-rate or quality score. The source material was incomplete relative to the full contract set, so many facts remained unknown.
+
+At the same time, the result is a legitimate calibration signal. External reviewers should be able to question whether the contracts are too strict, whether applicability needs improvement, or whether normalization is losing useful signal.
+
+## Longitudinal transition evidence
+
+A separate sanitized, multi-week real-world transition record produced several generalized incident classes.
+
+Three currently map to existing contracts and have internal regression coverage:
+
+1. duplicate downstream business/storage side effects;
+2. overbroad conversation/data visibility;
+3. lifecycle/business-class ambiguity.
+
+Three larger gaps remain unpromoted:
+
+- source/destination record cardinality + lifecycle-state parity;
 - whole-company stakeholder/department readiness before rollout;
 - task work-method parity beyond task-object existence.
 
 See [Longitudinal Business-System Transition Evidence](LONGITUDINAL_TRANSITION_EVIDENCE.md).
 
-## Public operating/business-development state
+## Product and operating layers
 
-GoNica Marketing now has a public website and is recruiting a small number of exploratory pilot partners around operational continuity for acquisitions and complex transitions.
+- **GoNica Brain** — company understanding, evidence, decision support, continuity rules and testing.
+- **Operational Continuity Engine** — deterministic evidence-evaluation component within that broader work.
+- **GoNica Marketing** — implementation/pilot-recruitment layer; public site live at **https://gonicamarketing.com/**.
+- **GoNica Tours** — owner-controlled operating proof environment.
+- **GoHighLevel and other tools** — execution environments, not the identity of the Brain.
 
-This does **not** mean GoNica has production customers, completed pilots, recurring revenue, or broad enterprise deployment. Those outcomes remain separate gates.
+## What is not proven
 
-## What is not being claimed
+The project does **not** currently claim proof of:
 
-- GoNica is not a finished hosted AI platform.
-- It is not an unrestricted autonomous system.
-- It is not yet a broadly deployed commercial SaaS product.
-- Current live HighLevel MCP/API behavior is not yet proven by the R3.5 package.
-- Live cross-system operational continuity is not yet proven.
-- External-customer production outcomes are not yet proven.
-- The observed longitudinal transition is not being represented as a GoNica production deployment.
-- A component being BUILT or TESTED does not automatically mean it is PRODUCTION-READY.
+- a finished hosted AI platform;
+- unrestricted autonomy;
+- broad external-customer production deployment;
+- recurring revenue from the Brain;
+- independent calibration of the full 17-contract set;
+- broad live cross-system continuity;
+- independent security/compliance certification;
+- completed enterprise-scale migration outcomes.
 
 ## Current development posture
 
-The Brain reached an **R3.5 candidate-ready freeze point on August 17, 2026**. Material architecture expansion remains intentionally held unless a concrete new evidence gap, regression, qualified technical review, or explicitly authorized live-validation gate justifies change.
+The August 17 R3.5 freeze remains a stop on speculative architecture expansion, not a declaration that the system is complete.
 
-```mermaid
-flowchart LR
-    A[Governed technical foundation] --> B[Real evidence + qualified review]
-    B --> C[Bounded live proof / pilot decision]
-    C --> D[Measured business outcome]
-    D --> E[Standardize reusable package]
-    E --> F[Expand integrations and infrastructure only when evidence supports it]
-```
+New work should be driven by evidence that increases information value, especially:
 
-The commercial direction remains intentionally open enough to test the strongest entry point. CRM/system transitions and acquisition/integration continuity are measurable beachheads, but the broader product thesis is preserving and governing company operating knowledge so analysis, implementation, automation, and change can be safer and more repeatable.
+1. external technical review;
+2. reviewer-authored adversarial cases;
+3. contract applicability/calibration review;
+4. fuzz/property-based testing where it fits the deterministic logic;
+5. bounded live proof with measurable outcomes;
+6. real pilot/customer evidence when available.
 
-## Owner-control principle
-
-GoNica is deliberately designed so that uncertain or consequential actions can stop for human review. The goal is not maximum autonomy. The goal is useful AI-assisted operations with evidence, permissions, testing, and accountability.
+The next meaningful milestone is **stronger independent challenge**, not simply a larger internal PASS count.
