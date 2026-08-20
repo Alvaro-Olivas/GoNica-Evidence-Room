@@ -42,13 +42,20 @@ class PublicOperationalContinuitySubsetTests(unittest.TestCase):
                 self.assertEqual(result["readiness"], "BLOCKED_BY_CONFLICT")
                 self.assertFalse(result["production_authorized"])
 
-    def test_missing_evidence_never_becomes_pass(self):
+    def test_missing_evidence_family_never_becomes_pass(self):
         result = evaluate_dossier({})
         self.assertEqual(result["readiness"], "EVIDENCE_INCOMPLETE")
         self.assertTrue(
             all(item["evaluation_state"] == "UNKNOWN" for item in result["contract_evaluations"])
         )
         self.assertFalse(result["production_authorized"])
+
+    def test_item_present_without_side_effect_evidence_is_not_pass(self):
+        dossier = {"business_events": [{"idempotency_key": "abc"}]}
+        result = evaluate_dossier(dossier)
+        evaluation = evaluation_for(result, "B09-08")
+        self.assertEqual(evaluation["evaluation_state"], "PARTIAL")
+        self.assertEqual(result["readiness"], "EVIDENCE_INCOMPLETE")
 
     def test_retry_without_idempotency_evidence_is_partial(self):
         dossier = {
@@ -57,12 +64,39 @@ class PublicOperationalContinuitySubsetTests(unittest.TestCase):
                     "business_event_id": "SYN-RETRY-01",
                     "transport_attempts": 2,
                     "side_effect_count": 1,
-                    "evidence_refs": ["SYN-RETRY-EVIDENCE"]
+                    "evidence_refs": ["SYN-RETRY-EVIDENCE"],
                 }
             ]
         }
         result = evaluate_dossier(dossier)
         evaluation = evaluation_for(result, "B09-08")
+        self.assertEqual(evaluation["evaluation_state"], "PARTIAL")
+        self.assertEqual(result["readiness"], "EVIDENCE_INCOMPLETE")
+
+    def test_lifecycle_item_missing_explicit_universal_vocabulary_decision_is_partial(self):
+        dossier = {
+            "lifecycle_bindings": [
+                {
+                    "company_stage": "Qualified",
+                    "capability_id": "QUALIFICATION",
+                }
+            ]
+        }
+        result = evaluate_dossier(dossier)
+        evaluation = evaluation_for(result, "B09-01")
+        self.assertEqual(evaluation["evaluation_state"], "PARTIAL")
+        self.assertEqual(result["readiness"], "EVIDENCE_INCOMPLETE")
+
+    def test_data_sharing_item_missing_authority_evidence_is_partial(self):
+        dossier = {
+            "data_sharing": [
+                {
+                    "identity_matched": True,
+                }
+            ]
+        }
+        result = evaluate_dossier(dossier)
+        evaluation = evaluation_for(result, "B09-06")
         self.assertEqual(evaluation["evaluation_state"], "PARTIAL")
         self.assertEqual(result["readiness"], "EVIDENCE_INCOMPLETE")
 
