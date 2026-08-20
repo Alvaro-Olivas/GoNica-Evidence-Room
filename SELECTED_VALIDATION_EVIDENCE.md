@@ -10,7 +10,7 @@ For directly inspectable behavior, start with the [Auditable Operational Continu
 
 **Status:** `PUBLICLY-AUDITABLE / INTERNAL REGRESSION`
 
-The public repository now exposes three exact continuity contracts plus deterministic logic, synthetic fixtures and adversarial tests:
+The public repository exposes three exact continuity contracts plus deterministic logic, synthetic fixtures and adversarial tests:
 
 - `B09-01` Lifecycle Capability Contract;
 - `B09-06` Identity Match != Data-Sharing Authority;
@@ -36,7 +36,33 @@ What this does **not** support:
 - independent validation;
 - production readiness.
 
-## 2. Governed GoHighLevel bridge
+## 2. External adversarial review and Phase 2 correction
+
+**Status:** `EXTERNAL SOURCE REVIEW + PRIVATE INTERNAL REMEDIATION`
+
+The public B09-08 subset exposed a real defect: a partially populated item could previously inherit permissive defaults for missing event-attempt/side-effect evidence and incorrectly become `PASS`.
+
+That defect was reproduced, corrected and regression-covered. The external reviewer then examined additional pasted private implementation/schema/test artifacts and found the same present-but-incomplete false-PASS class in additional private checks.
+
+The bounded private Phase 2 remediation then recorded the following project-authored evidence on its pull-request CI path:
+
+- active deterministic logic consolidated into one authoritative private check module;
+- real Draft 2020-12 JSON Schema validation before deterministic contract evaluation;
+- schema-invalid structured evidence blocked before contract checks;
+- two adversarial vectors covering all 17 private contracts: explicit contradiction and present-but-incomplete evidence;
+- `41/41` private Brain tests PASS on the remediation PR;
+- schema-definition validation PASS;
+- representative dossier schema validation PASS;
+- corrected full-company R3 fixture -> `READY_FOR_BOUNDED_SYNTHETIC_TEST`;
+- stress full-company R3 fixture -> `BLOCKED_BY_CONFLICT`;
+- both R3 paths keep `production_authorized:false`;
+- Windows Control Plane validation PASS before merge.
+
+Correct interpretation:
+
+This is a documented correction cycle where external scrutiny generated useful counterexamples and the project added regression protection. The external reviewer did **not** independently execute the full private engine, so this must not be described as independent third-party validation of the 17-contract implementation.
+
+## 3. Governed GoHighLevel bridge
 
 **Status:** `INTERNAL-TESTED / HISTORICAL`
 
@@ -52,7 +78,7 @@ Correct interpretation:
 
 This supports that a governed bridge was implemented and exercised under defined project tests. It does not establish that every HighLevel operation is correct, that the tests are independently sufficient, or that unrestricted production writes are authorized.
 
-## 3. Earlier Brain benchmark program
+## 4. Earlier Brain benchmark program
 
 **Status:** `INTERNAL-TESTED — SYNTHETIC / SANITIZED`
 
@@ -70,7 +96,7 @@ Correct interpretation:
 
 These results are evidence of an internal engineering process, not an external quality score. The weighted score previously reported by the project should not be treated as independent product validation.
 
-## 4. Operational-continuity regression history
+## 5. Operational-continuity regression history
 
 **Status:** `INTERNAL-TESTED — SYNTHETIC / CONTROLLED`
 
@@ -99,7 +125,7 @@ What it does not support:
 - that an outside reviewer would choose the same rules;
 - that real companies will produce the same outcomes.
 
-## 5. Private 17-contract reference engine
+## 6. Private 17-contract reference engine
 
 **Status:** `PRIVATE-ONLY / INTERNAL-TESTED`
 
@@ -108,22 +134,25 @@ The current private control plane records:
 - 17 explicit continuity/governance contracts;
 - 17 deterministic reference checks;
 - structured synthetic fixtures;
-- 17 adversarial contract cases in the private suite;
+- an explicit contradiction/unsafe adversarial vector across all 17 contracts;
+- a present-but-incomplete/missing-evidence vector across all 17 contracts;
+- a meta-regression requiring both vectors to cover the same complete registry;
 - a test that prevents a supplied `PASS` from hiding a deterministic `FAIL`;
+- executable transition-dossier schema validation before deterministic evaluation;
 - incident-to-regression handling;
 - reports and hash-verifiable evidence bundles.
 
-Only three of those contracts are currently exposed as runnable public code in this Evidence Room. A reviewer should therefore distinguish:
+Only three contracts are currently exposed as runnable public code in this Evidence Room. A reviewer should therefore distinguish:
 
 > **private implementation claim** from **publicly auditable proof**.
 
-## 6. Real-evidence transition corpus — August 18
+## 7. Real-evidence transition corpus — August 18 + hardened rerun August 20
 
 **Status:** `PRIVATE EVALUATION OVER PUBLIC-SOURCE INPUTS`
 
 Seven acquired/normalized public-source evidence sets were evaluated through the private 17-contract engine.
 
-Aggregate:
+Historical aggregate:
 
 - 119 contract evaluations;
 - 30 PARTIAL;
@@ -132,8 +161,20 @@ Aggregate:
 - 0 PASS;
 - 7/7 evidence bundles verified internally;
 - 4 learning candidates remained unpromoted;
-- internal Brain suite: 21/21 PASS;
-- internal corpus regression suite: 9/9 PASS.
+- historical internal Brain suite at that savepoint: 21/21 PASS;
+- historical internal corpus regression suite: 9/9 PASS.
+
+After Phase 2, the same seven sanitized dossiers were explicitly rerun through the hardened engine.
+
+Hardened aggregate:
+
+- 119 contract evaluations;
+- 30 PARTIAL;
+- 6 FAIL;
+- 83 UNKNOWN;
+- 0 PASS.
+
+The aggregate was unchanged, and all seven rerun dossiers remained `production_authorized:false`.
 
 ### How to interpret `0/119 PASS`
 
@@ -141,16 +182,16 @@ This is **not a success metric**.
 
 The seven inputs were not complete transition dossiers. They were public evidence sources with uneven coverage, so many contract questions had insufficient evidence and remained `UNKNOWN`.
 
-The result does demonstrate that the evaluator does not automatically turn absence into PASS. But it also creates a legitimate engineering question that remains open:
+The unchanged before/after result is narrower evidence: the known false-PASS correction did not alter this particular seven-source batch. It does not prove that the old defects were harmless for other inputs.
+
+Calibration questions remain open:
 
 - Are some contracts too strict?
 - Is applicability modeled well enough?
 - Is useful signal being lost in normalization?
 - What would an independent reviewer classify differently?
 
-The Evidence Room should not frame `0/119 PASS` as automatically positive. It is a calibration signal that should be challenged.
-
-## 7. Longitudinal incident-derived regressions — August 19
+## 8. Longitudinal incident-derived regressions — August 19
 
 **Status:** `OBSERVED-SANITIZED + INTERNAL REGRESSION`
 
@@ -170,7 +211,7 @@ See [Longitudinal Business-System Transition Evidence](LONGITUDINAL_TRANSITION_E
 
 Because the underlying company evidence is private and sanitized, an outside reviewer cannot independently reconstruct the incidents from this repo alone. The public value is the generalized rule and the disclosed limitation, not a claim of customer validation.
 
-## 8. Production boundary
+## 9. Production boundary
 
 A project rule remains:
 
@@ -183,14 +224,15 @@ Current public evidence does not prove:
 - external-customer production outcomes;
 - broad live cross-system continuity;
 - independent contract calibration;
+- independent execution of the full private remediation;
 - independent security/compliance certification;
 - completed enterprise deployment.
 
 ## What stronger evidence should look like next
 
-The next evidence tier is not a larger internal pass count. It is external challenge:
+The next evidence tier is not a larger internal pass count. It is stronger external challenge and bounded proof:
 
-- outside code review;
+- independent execution/code review where privacy permits;
 - reviewer-authored adversarial cases;
 - fuzz/property-based testing where appropriate;
 - applicability/calibration review of the contract model;
