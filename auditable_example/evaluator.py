@@ -44,7 +44,13 @@ def check_b09_01(dossier: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         return _result("UNKNOWN", "Lifecycle binding evidence was supplied as an empty set.")
 
     forced = [item for item in items if item.get("forced_universal_vocabulary") is True]
-    missing = [item for item in items if not item.get("company_stage") or not item.get("capability_id")]
+    incomplete = [
+        item
+        for item in items
+        if not item.get("company_stage")
+        or not item.get("capability_id")
+        or "forced_universal_vocabulary" not in item
+    ]
 
     if forced:
         return _result(
@@ -53,11 +59,11 @@ def check_b09_01(dossier: Dict[str, Any]) -> Optional[Dict[str, Any]]:
             "Map company-specific stages to reusable lifecycle capabilities instead of forcing labels.",
             _refs(items),
         )
-    if missing:
+    if incomplete:
         return _result(
             "PARTIAL",
-            "Lifecycle bindings exist but one or more lack company-stage or reusable-capability identity.",
-            "Complete the company-stage to capability mapping.",
+            "Lifecycle bindings exist but required semantic evidence is incomplete.",
+            "Provide company stage, capability identity, and an explicit forced-universal-vocabulary decision.",
             _refs(items),
         )
     return _result(
@@ -78,28 +84,37 @@ def check_b09_06(dossier: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     unauthorized = []
     incomplete = []
     for item in items:
-        if item.get("identity_matched") is True and item.get("data_shared") is True and item.get("authorized") is not True:
+        required_flags_present = all(
+            key in item for key in ("identity_matched", "data_shared", "authorized")
+        )
+        if not required_flags_present:
+            incomplete.append(item)
+            continue
+
+        if item.get("data_shared") is True and item.get("authorized") is False:
             unauthorized.append(item)
-        if item.get("data_shared") is True and (not item.get("purpose") or not item.get("scope")):
+        if item.get("data_shared") is True and (
+            not item.get("purpose") or not item.get("scope")
+        ):
             incomplete.append(item)
 
     if unauthorized:
         return _result(
             "FAIL",
-            "Identity matching was treated as authority to share data.",
+            "Data was shared despite explicit lack of sharing authority.",
             "Block sharing until purpose, scope and authorization are explicit.",
             _refs(items),
         )
     if incomplete:
         return _result(
             "PARTIAL",
-            "Data sharing may be authorized, but purpose/scope evidence is incomplete.",
-            "Record the approved business purpose and disclosure scope.",
+            "Data-sharing evidence exists but authority/purpose/scope evidence is incomplete.",
+            "Record identity-match state, sharing state, authority, and any applicable purpose/scope evidence.",
             _refs(items),
         )
     return _result(
         "PASS",
-        "Identity matching and data-sharing authority are evaluated separately.",
+        "Identity matching and data-sharing authority are evaluated separately with explicit evidence.",
         evidence_refs=_refs(items),
     )
 
@@ -114,12 +129,36 @@ def check_b09_08(dossier: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     duplicate_outcome = []
     incomplete = []
+    invalid_numeric = []
+
+    required_fields = {
+        "business_event_id",
+        "transport_attempts",
+        "side_effect_count",
+        "idempotency_key",
+    }
+
     for item in items:
-        attempts = int(item.get("transport_attempts", 1) or 1)
-        side_effect_count = int(item.get("side_effect_count", 0) or 0)
+        if any(key not in item for key in required_fields):
+            incomplete.append(item)
+            continue
+
+        try:
+            attempts = int(item["transport_attempts"])
+            side_effect_count = int(item["side_effect_count"])
+        except (TypeError, ValueError):
+            invalid_numeric.append(item)
+            continue
+
+        if attempts < 1 or side_effect_count < 0:
+            invalid_numeric.append(item)
+            continue
+
         if side_effect_count > 1:
             duplicate_outcome.append(item)
         if attempts > 1 and not item.get("idempotency_key"):
+            incomplete.append(item)
+        if not item.get("business_event_id") or not item.get("idempotency_key"):
             incomplete.append(item)
 
     if duplicate_outcome:
@@ -129,16 +168,23 @@ def check_b09_08(dossier: Dict[str, Any]) -> Optional[Dict[str, Any]]:
             "Use a stable business-event identity/idempotency key and reconcile retries to one outcome.",
             _refs(items),
         )
+    if invalid_numeric:
+        return _result(
+            "PARTIAL",
+            "Business-event evidence contains invalid transport-attempt or side-effect counts.",
+            "Provide explicit non-negative side-effect counts and transport-attempt counts of at least one.",
+            _refs(items),
+        )
     if incomplete:
         return _result(
             "PARTIAL",
-            "Retries occurred without explicit idempotency evidence.",
-            "Define stable business-event identity and idempotency behavior.",
+            "Business-event evidence is present but required event/retry/side-effect evidence is incomplete.",
+            "Provide business event identity, transport attempts, side-effect count, and idempotency evidence explicitly.",
             _refs(items),
         )
     return _result(
         "PASS",
-        "Business-event identity is separated from transport attempts and duplicate side effects are prevented.",
+        "Business-event identity, transport attempts, idempotency, and side-effect evidence are explicit and consistent.",
         evidence_refs=_refs(items),
     )
 
